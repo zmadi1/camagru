@@ -55,7 +55,7 @@ class DB {
 			if(is_array($params['conditions'])){
 				foreach($params['conditions'] as $condition){
 					$conditionString .= ' '.$condition.' AND';
-				} 
+				}
 				$conditionString = trim($conditionString);
 				$conditionString = rtrim($conditionString,' AND');
 			}else{
@@ -76,9 +76,10 @@ class DB {
 		}
 		//limit
 		if(array_key_exists('limit',$params)){
-			$limit = ' LIMIT ' . $params['limit'];
+			$limit = ' LIMIT '. $params['limit'];
 		}
-		$sql = "SELECT * FROM {$table}{$conditionString}{$order}{$limit}";
+		$sql = "SELECT * FROM {$table} {$conditionString} {$order} {$limit}";
+
 		if($this->query($sql, $bind)) {
 
 			if(!count($this->_result)) return false;
@@ -103,12 +104,12 @@ class DB {
 		return false;
 
 	}
-	
+
 	public function insert($table, $fields = []){
 		$fieldString = '';
 		$valueString = '';
 		$values = [];
-	
+
 		foreach($fields as $field =>$value){
 			$fieldString .='`'.$field.'`,';
 			$valueString .= '?,';
@@ -132,7 +133,7 @@ class DB {
 
 		}
 		$fieldString = trim($fieldString);
-		$fieldString = rtrim($fieldString, ','); 
+		$fieldString = rtrim($fieldString, ',');
 		$sql = "UPDATE {$table} SET {$fieldString}  where id = {$id}";
 		if(!$this->query($sql, $values)->error()) {
 			return true;
